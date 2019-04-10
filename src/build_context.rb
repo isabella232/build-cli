@@ -86,7 +86,7 @@ class BuildContext
     if commit.nil?
       false
     else
-      res = Command.new("git", "diff", "--exit-code", "--name-only", "#{commit}", "#{commit}~1", "--", "../../").puts!.run!
+      res = Command.new("git", "diff", "--exit-code", "--name-only", "#{commit}", "#{commit}~1", "--", ".").puts!.run!
       !res.success?
     end
   end
@@ -121,8 +121,9 @@ class BuildContext
     )
   end
 
+  # We assume that we always run in the server root already (see cli.rb chdir)
   def find_server_root
-    Pathname.new(Dir.pwd).parent.dirname
+    Pathname.new(Dir.pwd)
   end
 end
 

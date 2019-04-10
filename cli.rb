@@ -2,7 +2,12 @@ require_relative './src/build_context'
 require_relative './src/command'
 require_relative './src/commands'
 
-Dir.chdir(__dir__)
+server_root = ENV['SERVER_ROOT']
+unless !server_root.nil?
+  raise "Required env var SERVER_ROOT not found."
+end
+
+Dir.chdir(server_root)
 
 git_fetch
 context = BuildContext.new
