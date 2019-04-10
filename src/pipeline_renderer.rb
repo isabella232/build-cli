@@ -197,6 +197,8 @@ class PipelineRenderer
   def calculate_next_unstable_docker_tag()
     @next_docker_tag ||= lambda do
       new_tag = @context.last_git_tag.dup
+      puts @context.inspect
+      puts @context.tag.inspect
       new_tag.channel = @context.branch
       new_tag.patch = nil  # Ignore patches for unstable releases
       new_tag.minor += (@context.branch == "alpha") ? 2 : 1

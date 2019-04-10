@@ -71,7 +71,7 @@ end
 def artifact_paths_for(context, target_name)
   artifact_s3_paths = ["s3://#{ENV["RUST_ARTIFACT_BUCKET"]}/#{context.branch}/#{context.commit}/#{target_name}"]
 
-  if context.branch == "alpha" || context.branch == "beta"
+  if context.branch == "alpha" || context.branch == "beta" || (!context.tag.nil? && (context.tag.stable? || context.tag.beta?))
     artifact_s3_paths.push "s3://#{ENV["RUST_ARTIFACT_BUCKET"]}/#{context.branch}/latest/#{target_name}"
   end
 
