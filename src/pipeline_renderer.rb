@@ -65,6 +65,15 @@ class PipelineRenderer
 
   @@wait_step = PipelineStep.new.wait!
 
+  def block_step
+    if ["alpha", "beta", "master"].include?(@context.branch) || @context.beta? || @context.stable?
+      # In case we're on one of the channels, always publish (just wait for previous steps to finish)
+      @@wait_step
+    else
+      PipelineStep.new.block!(":rocket: Publish build artifacts")
+    end
+  end
+
   def initialize(context)
     @context = context
   end
@@ -85,7 +94,7 @@ class PipelineRenderer
     [ test_steps,
       rust_tests,
       release_steps[:before_wait],
-      @@wait_step,
+      block_step,
       release_rust_artifacts,
       release_steps[:after_wait]].flatten
   end

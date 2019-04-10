@@ -5,10 +5,17 @@ class PipelineStep
     @queue = nil
     @branches = []
     @wait = false
+    @block = false
   end
 
   def wait!
     @wait = true
+    self
+  end
+
+  def block!(label)
+    @label = label
+    @block = true
     self
   end
 
@@ -35,6 +42,12 @@ class PipelineStep
   def render!(indent = 2)
     if @wait
       return " " * indent + "- wait"
+    end
+
+    if @block
+      #   steps:
+  # - block: ":rocket: Release!"
+      return " " * indent + "- block \"#{@label}\""
     end
 
     rendered = [
