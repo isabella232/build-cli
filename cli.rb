@@ -8,11 +8,7 @@ unless bk_path.nil?
   bk_path += "/server"
 end
 
-puts bk_path
-puts ENV['SERVER_ROOT']
 server_root = ENV['SERVER_ROOT'] || bk_path
-puts server_root
-
 unless !server_root.nil?
   raise "Can't determine server root path."
 end
