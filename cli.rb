@@ -3,7 +3,7 @@ require_relative './src/command'
 require_relative './src/commands'
 
 
-bk_path = ENV['BUILDKITE_CHECKOUT_PATH']
+bk_path = ENV['BUILDKITE_BUILD_CHECKOUT_PATH']
 unless bk_path.nil?
   bk_path += "/server"
 end
