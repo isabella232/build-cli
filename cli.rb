@@ -2,9 +2,15 @@ require_relative './src/build_context'
 require_relative './src/command'
 require_relative './src/commands'
 
-server_root = ENV['SERVER_ROOT']
+
+bk_path = ENV['BUILDKITE_CHECKOUT_PATH']
+unless bk_path.nil?
+  bk_path += "/server"
+end
+
+server_root = ENV['SERVER_ROOT'] || bk_path
 unless !server_root.nil?
-  raise "Required env var SERVER_ROOT not found."
+  raise "Can't determine server root path."
 end
 
 Dir.chdir(server_root)
