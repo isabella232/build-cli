@@ -199,6 +199,7 @@ class PipelineRenderer
       new_tag = @context.last_git_tag.dup
       puts @context.inspect
       puts @context.tag.inspect
+      puts new_tag.inspect
       new_tag.channel = @context.branch
       new_tag.patch = nil  # Ignore patches for unstable releases
       new_tag.minor += (@context.branch == "alpha") ? 2 : 1
