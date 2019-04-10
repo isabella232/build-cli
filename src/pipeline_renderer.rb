@@ -66,7 +66,7 @@ class PipelineRenderer
   @@wait_step = PipelineStep.new.wait!
 
   def block_step
-    if ["alpha", "beta", "master"].include?(@context.branch) || @context.tag.beta? || @context.tag.stable?
+    if ["alpha", "beta", "master"].include?(@context.branch) || (!@context.tag.nil? && (@context.tag.beta? || @context.tag.stable?))
       # In case we're on one of the channels, always publish (just wait for previous steps to finish)
       @@wait_step
     else
