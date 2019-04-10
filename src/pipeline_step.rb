@@ -45,9 +45,7 @@ class PipelineStep
     end
 
     if @block
-      #   steps:
-  # - block: ":rocket: Release!"
-      return " " * indent + "- block \"#{@label}\""
+      return " " * indent + "- block: \"#{@label}\""
     end
 
     rendered = [
