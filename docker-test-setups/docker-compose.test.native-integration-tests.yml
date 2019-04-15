@@ -16,8 +16,6 @@ services:
         databases:
           default:
             connector: native-integration-tests
-            migrations: true
-            active: true
             host: test-db
             port: 3306
             user: root

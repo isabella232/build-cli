@@ -15,7 +15,6 @@ services:
         databases:
           default:
             connector: postgres
-            migrations: true
             host: test-db
             port: 5432
             user: postgres
