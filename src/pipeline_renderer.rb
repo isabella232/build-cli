@@ -2,7 +2,7 @@ require_relative './pipeline_step'
 
 class PipelineRenderer
   # Rules to generate the test excution
-  # Valid connectors: :all, :none, :mongo, :mysql, :postgres
+  # Valid connectors: :all, :none, :mongo36, :mongo40, :mysql, :postgres
   # https://github.com/buildkite/emojis
   @@test_rules = {
     :'api-connector-mysql' => {
@@ -25,14 +25,22 @@ class PipelineRenderer
       :label => ":postgres: Postgres deploy connector",
       :connectors => [:postgres]
     },
-    :'api-connector-mongo' => {
-      :label => ":piedpiper: MongoDB API connector",
-      :connectors => [:mongo]
+    :'api-connector-mongo36' => {
+      :label => ":piedpiper: MongoDB 3.6 API connector",
+      :connectors => [:mongo36]
     },
-    :'deploy-connector-mongo' => {
-      :label => ":piedpiper: MongoDB deploy connector",
-      :connectors => [:mongo]
+    :'deploy-connector-mongo36' => {
+      :label => ":piedpiper: MongoDB 3.6 deploy connector",
+      :connectors => [:mongo36]
     },
+     :'api-connector-mongo40' => {
+       :label => ":piedpiper: MongoDB 4.0 API connector",
+       :connectors => [:mongo40]
+     },
+     :'deploy-connector-mongo40' => {
+       :label => ":piedpiper: MongoDB 4.0 deploy connector",
+       :connectors => [:mongo40]
+     },
     :'libs' => {
       :label => ":scala: Libraries",
       :connectors => [:none]
