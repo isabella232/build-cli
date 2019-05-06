@@ -26,7 +26,7 @@ class PipelineRenderer
       :connectors => [:postgres]
     },
     :'api-connector-mongo' => {
-      :label => ":piedpiper: MongoDB 3.6 API connector",
+      :label => ":piedpiper: MongoDB API connector",
       :connectors => [:mongo36, :mongo40]
     },
     :'deploy-connector-mongo' => {
