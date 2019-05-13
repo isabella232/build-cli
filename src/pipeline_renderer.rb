@@ -4,7 +4,35 @@ class PipelineRenderer
   # Rules to generate the test excution
   # Valid connectors: :all, :none, :mongo36, :mongo40, :mysql, :postgres
   # https://github.com/buildkite/emojis
-  @@test_rules = {
+  @@test_rules = {    
+    :'api' => {
+      :label => ":scala: API",
+      :connectors => [:all]
+    },
+    :'deploy' => {
+      :label => ":scala: Deploy",
+      :connectors => [:all]
+    },    
+    :'shared-models' => {
+      :label => ":scala: Models",
+      :connectors => [:none]
+    },
+    :'libs' => {
+      :label => ":scala: Libraries",
+      :connectors => [:none]
+    },
+    :'subscriptions' => {
+      :label => ":scala: Subscriptions",
+      :connectors => [:postgres]
+    },
+    :'images' => {
+      :label => ":scala: Images",
+      :connectors => [:all]
+    },
+    :'workers' => {
+      :label => ":scala: Workers",
+      :connectors => [:all]
+    },
     :'api-connector-mysql' => {
       :label => ":mysql: MySql API connector",
       :connectors => [:mysql]
@@ -32,34 +60,6 @@ class PipelineRenderer
     :'deploy-connector-mongo' => {
       :label => ":piedpiper: MongoDB deploy connector",
       :connectors => [:mongo36, :mongo40]
-    },
-    :'libs' => {
-      :label => ":scala: Libraries",
-      :connectors => [:none]
-    },
-    :'subscriptions' => {
-      :label => ":scala: Subscriptions",
-      :connectors => [:postgres]
-    },
-    :'shared-models' => {
-      :label => ":scala: Subscriptions",
-      :connectors => [:none]
-    },
-    :'images' => {
-      :label => ":scala: Images",
-      :connectors => [:all]
-    },
-    :'deploy' => {
-      :label => ":scala: Deploy",
-      :connectors => [:all]
-    },
-    :'api' => {
-      :label => ":scala: API",
-      :connectors => [:all]
-    },
-    :'workers' => {
-      :label => ":scala: Workers",
-      :connectors => [:all]
     }
   }
 
@@ -91,8 +91,8 @@ class PipelineRenderer
 
   def collect_steps
     release_steps = release_artifacts_steps
-    [ test_steps,
-      rust_tests,
+    [ rust_tests,
+      test_steps,      
       release_steps[:before_wait],
       block_step,
       release_rust_artifacts,
