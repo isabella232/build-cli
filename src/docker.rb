@@ -8,7 +8,7 @@ class DockerCommands
     containers = Command.new("docker", "ps", "-q").run!.raise!
     containers.stdout.each do |container|
       puts "\tStopping #{container.chomp}..."
-      Command.new("docker", "kill", container.chomp).run!.raise!
+      Command.new("docker", "kill", container.chomp).run!
     end
   end
 
