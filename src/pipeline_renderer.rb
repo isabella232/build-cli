@@ -31,7 +31,7 @@ class PipelineRenderer
     },
     :'workers' => {
       :label => ":scala: Workers",
-      :connectors => [:all]
+      :connectors => [:none]
     },
     :'api-connector-mysql' => {
       :label => ":mysql: MySql API connector",
