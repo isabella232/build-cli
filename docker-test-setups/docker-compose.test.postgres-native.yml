@@ -19,6 +19,7 @@ services:
             port: 5432
             user: postgres
             password: prisma
+            database: prisma
             rawAccess: true
     volumes:
       - ../../..:/root/build
