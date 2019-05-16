@@ -106,6 +106,11 @@ def rust_binary(context, platform)
       "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
       "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
     }).puts!.run!.raise!
+
+    Command.new("buildkite-agent", "artifact", "upload", "migration-engine").with_env({
+      "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
+      "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
+    }).puts!.run!.raise!
   end
 end
 
