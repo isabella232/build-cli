@@ -9,7 +9,7 @@ services:
       PACKAGECLOUD_PW: "${PACKAGECLOUD_PW}"
       RABBITMQ_URI: amqp://rabbit
       RUST_BACKTRACE: "1"
-      RUST_LOG: "info"
+      RUST_LOG: "error"
       PRISMA_CONFIG: |
         port: 4466
         rabbitUri: amqp://rabbit
