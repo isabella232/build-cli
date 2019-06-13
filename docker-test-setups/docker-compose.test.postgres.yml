@@ -35,6 +35,7 @@ services:
       RUST_BACKTRACE: 1
       COMMIT_SHA: "123abcd"
       RUST_BACKTRACE: "1"
+      IS_BUILDKITE: "1"
     volumes:
       - ../../..:/root/build
     working_dir: /root/build/prisma-rs
