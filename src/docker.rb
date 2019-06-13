@@ -36,13 +36,8 @@ class DockerCommands
     Command.new("docker-compose", *compose_flags, "up", "-d", "test-db").puts!.run!.raise!
     sleep(10)
 
-    Command.new("docker", "run",
-      "-e", "SERVER_ROOT=/root/build",
-      "-e", "RUST_BACKTRACE=1",
-      '-w', '/root/build/prisma-rs',
-      '-v', "#{context.server_root_path}:/root/build",
-      'prismagraphql/build-image:debian',
-      './test.sh').puts!.run!.raise!
+    puts "Starting tests for #{project}..."
+    test_run = Command.new("docker-compose", *compose_flags, "run", "rust", "./test.sh").puts!.run!.raise!
 
     puts "Stopping services..."
     cleanup = Command.new("docker-compose", *compose_flags, "down", "-v", "--remove-orphans").puts!.run!.raise!

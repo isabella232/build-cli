@@ -28,6 +28,19 @@ services:
     networks:
       - tests
 
+  rust:
+    image: prismagraphql/build-image:debian
+    environment:
+      SERVER_ROOT: /root/build
+      RUST_BACKTRACE: 1
+      COMMIT_SHA: "123abcd"
+      RUST_BACKTRACE: "1"
+    volumes:
+      - ../../..:/root/build
+    working_dir: /root/build/prisma-rs
+    networks:
+      - tests
+
   test-db:
     image: postgres:10.3
     restart: always
