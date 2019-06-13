@@ -17,6 +17,7 @@ def test_project(context, project, connector)
 end
 
 def test_rust(context)
+  DockerCommands.kill_all
   DockerCommands.run_rust_tests(context)
 end
 

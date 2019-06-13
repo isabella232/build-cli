@@ -32,6 +32,10 @@ class DockerCommands
   end
 
   def self.run_rust_tests(context)
+    compose_flags = ["--file", "#{context.server_root_path}/.buildkite/build-cli/docker-test-setups/docker-compose.test.postgres.yml"]
+    Command.new("docker-compose", *compose_flags, "up", "-d", "test-db").puts!.run!.raise!
+    sleep(10)
+
     Command.new("docker", "run",
       "-e", "SERVER_ROOT=/root/build",
       "-e", "RUST_BACKTRACE=1",
@@ -39,6 +43,9 @@ class DockerCommands
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:debian',
       './test.sh').puts!.run!.raise!
+
+    puts "Stopping services..."
+    cleanup = Command.new("docker-compose", *compose_flags, "down", "-v", "--remove-orphans").puts!.run!.raise!
   end
 
   def self.build(context, prisma_version)
