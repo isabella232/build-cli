@@ -36,7 +36,7 @@ class DockerCommands
     Command.new("docker-compose", *compose_flags, "up", "-d", "test-db").puts!.run!.raise!
     sleep(10)
 
-    puts "Starting tests for #{project}..."
+    puts "Starting tests for ..."
     test_run = Command.new("docker-compose", *compose_flags, "run", "rust", "./test.sh").puts!.run!.raise!
 
     puts "Stopping services..."
