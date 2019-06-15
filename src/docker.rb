@@ -92,7 +92,7 @@ class DockerCommands
       '-e', 'CC=gcc',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:alpine',
-      'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--manifest-path=prisma-rs/query-engine/prisma/Cargo.toml", "--release").puts!.run!.raise!
+      'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--manifest-path=prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
   end
 
   def self.rust_binary(context)
