@@ -34,6 +34,9 @@ class DockerCommands
   def self.run_rust_tests(context)
     compose_flags = ["--file", "#{context.server_root_path}/.buildkite/build-cli/docker-test-setups/docker-compose.test.postgres.yml"]
     Command.new("docker-compose", *compose_flags, "up", "-d", "test-db").puts!.run!.raise!
+
+    compose_flags = ["--file", "#{context.server_root_path}/.buildkite/build-cli/docker-test-setups/docker-compose.test.mysql.yml"]
+    Command.new("docker-compose", *compose_flags, "up", "-d", "test-db").puts!.run!.raise!
     sleep(10)
 
     puts "Starting tests for ..."
