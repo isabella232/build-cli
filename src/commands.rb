@@ -96,10 +96,15 @@ def rust_binary(context, platform)
     raise "Unsupported platform #{platform}"
   end
 
+  # Gzip all artifacts
+  upload_artifacts.each do |upload_artifact|
+    Command.new('gzip', '-f', upload_artifact).puts!.run!.raise!
+  end
+
   artifact_paths.flatten.each do |path|
     upload_artifacts.each do |upload_artifact|
       Command.new('gzip', '-f', upload_artifact).puts!.run!.raise!
-      Command.new("buildkite-agent", "artifact", "upload", "prisma.gz").with_env({
+      Command.new("buildkite-agent", "artifact", "upload", "#{upload_artifact}.gz").with_env({
         "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
         "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
       }).puts!.run!.raise!
