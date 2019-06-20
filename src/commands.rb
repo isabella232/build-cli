@@ -69,18 +69,13 @@ def native_image(context, target, version_str)
   end
 end
 
-def artifact_paths_for(context, target_name)
-  artifact_s3_paths = ["s3://#{ENV["RUST_ARTIFACT_BUCKET"]}/#{context.branch}/#{context.commit}/#{target_name}"]
-
-  if context.branch == "alpha" || context.branch == "beta" || (!context.tag.nil? && (context.tag.stable? || context.tag.beta?))
-    artifact_s3_paths.push "s3://#{ENV["RUST_ARTIFACT_BUCKET"]}/#{context.branch}/latest/#{target_name}"
-  end
-
-  artifact_s3_paths
-end
-
 def rust_binary(context, platform)
+  # Artifact whitelist. All named will be zipped and uploaded
+  upload_artifacts = ["prisma", "migration-engine", "prisma-fmt"]
+
+  # Upload folder paths in s3
   artifact_paths = []
+
   if platform == "alpine"
     artifact_paths.push(artifact_paths_for(context, "linux-musl"))
     DockerCommands.rust_binary_musl(context)
@@ -97,27 +92,30 @@ def rust_binary(context, platform)
       "RUSTC_WRAPPER" => "sccache"
     }).puts!.run!.raise!
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
-
   else
     raise "Unsupported platform #{platform}"
   end
 
   artifact_paths.flatten.each do |path|
-    Command.new("buildkite-agent", "artifact", "upload", "prisma").with_env({
-      "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
-      "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
-    }).puts!.run!.raise!
-
-    Command.new("buildkite-agent", "artifact", "upload", "migration-engine").with_env({
-      "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
-      "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
-    }).puts!.run!.raise!
-
-    Command.new("buildkite-agent", "artifact", "upload", "prisma-fmt").with_env({
-      "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
-      "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
-    }).puts!.run!.raise!
+    upload_artifacts.each do |upload_artifact|
+      Command.new('gzip', upload_artifact).puts!.run!.raise!
+      Command.new("buildkite-agent", "artifact", "upload", "prisma.gz").with_env({
+        "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
+        "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
+      }).puts!.run!.raise!
+    end
   end
+end
+
+# Builds s3 folder path based on context.
+def artifact_paths_for(context, target_name)
+  artifact_s3_paths = ["s3://#{ENV["RUST_ARTIFACT_BUCKET"]}/#{context.branch}/#{context.commit}/#{target_name}"]
+
+  if context.branch == "alpha" || context.branch == "beta" || (!context.tag.nil? && (context.tag.stable? || context.tag.beta?))
+    artifact_s3_paths.push "s3://#{ENV["RUST_ARTIFACT_BUCKET"]}/#{context.branch}/latest/#{target_name}"
+  end
+
+  artifact_s3_paths
 end
 
 def trigger_dependent_pipeline(channel, tags)
