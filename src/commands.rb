@@ -103,7 +103,6 @@ def rust_binary(context, platform)
 
   artifact_paths.flatten.each do |path|
     upload_artifacts.each do |upload_artifact|
-      Command.new('gzip', '-f', upload_artifact).puts!.run!.raise!
       Command.new("buildkite-agent", "artifact", "upload", "#{upload_artifact}.gz").with_env({
         "BUILDKITE_S3_DEFAULT_REGION" => "eu-west-1",
         "BUILDKITE_ARTIFACT_UPLOAD_DESTINATION" => path
