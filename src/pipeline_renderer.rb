@@ -4,7 +4,7 @@ class PipelineRenderer
   # Rules to generate the test excution
   # Valid connectors: :all, :none, :mongo36, :mongo40, :mysql, :postgres
   # https://github.com/buildkite/emojis
-  @@test_rules = {    
+  @@test_rules = {
     :'api' => {
       :label => ":scala: API",
       :connectors => [:all]
@@ -12,7 +12,7 @@ class PipelineRenderer
     :'deploy' => {
       :label => ":scala: Deploy",
       :connectors => [:all]
-    },    
+    },
     :'shared-models' => {
       :label => ":scala: Models",
       :connectors => [:none]
@@ -92,7 +92,7 @@ class PipelineRenderer
   def collect_steps
     release_steps = release_artifacts_steps
     [ rust_tests,
-      test_steps,      
+      test_steps,
       release_steps[:before_wait],
       block_step,
       release_rust_artifacts,
@@ -138,6 +138,9 @@ class PipelineRenderer
       PipelineStep.new
         .label(":rust: Build & Publish :linux: musl")
         .command("./server/.buildkite/pipeline.sh rust-binary alpine"),
+      PipelineStep.new
+        .label(":rust: Build & Publish :linux: :lambda: lambda")
+        .command("./server/.buildkite/pipeline.sh rust-binary lambda"),
       PipelineStep.new
         .label(":rust: Build & Publish :darwin:")
         .command("./server/.buildkite/pipeline.sh rust-binary native")

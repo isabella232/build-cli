@@ -96,6 +96,14 @@ class DockerCommands
       'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--manifest-path=prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
   end
 
+  def self.rust_binary_lambda(context)
+    Command.new("docker", "run",
+      '-w', '/root/build',
+      '-v', "#{context.server_root_path}:/root/build",
+      'prismagraphql/build-image:lambda',
+      'cargo', 'build', "--release", "--manifest-path=prisma-rs/Cargo.toml").puts!.run!.raise!
+  end
+
   def self.rust_binary(context)
     Command.new("docker", "run",
       '-w', '/root/build',
