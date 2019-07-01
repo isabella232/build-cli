@@ -100,7 +100,7 @@ class DockerCommands
     Command.new("docker", "run",
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
-      'prismagraphql/build-image:centos6-0.3',
+      'prismagraphql/build-image:centos6-0.4',
       'cargo', 'build', "--release", "--manifest-path=prisma-rs/Cargo.toml").puts!.run!.raise!
   end
 
