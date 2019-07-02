@@ -86,6 +86,11 @@ def rust_binary(context, platform)
     DockerCommands.rust_binary(context)
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
+  elsif platform == "zeit"
+    artifact_paths.push(artifact_paths_for(context, "linux-zeit"))
+    DockerCommands.rust_binary_zeit(context)
+    Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
+
   elsif platform == "lambda"
     artifact_paths.push(artifact_paths_for(context, "linux-lambda"))
     DockerCommands.rust_binary_lambda(context)

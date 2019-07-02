@@ -96,11 +96,19 @@ class DockerCommands
       'cargo', 'build', "--target=x86_64-unknown-linux-musl", "--manifest-path=prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
   end
 
-  def self.rust_binary_lambda(context)
+  def self.rust_binary_zeit(context)
     Command.new("docker", "run",
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:centos6-0.5',
+      'cargo', 'build', "--release", "--manifest-path=prisma-rs/Cargo.toml").puts!.run!.raise!
+  end
+
+  def self.rust_binary_lambda(context)
+    Command.new("docker", "run",
+      '-w', '/root/build',
+      '-v', "#{context.server_root_path}:/root/build",
+      'prismagraphql/build-image:lambda-1.1',
       'cargo', 'build', "--release", "--manifest-path=prisma-rs/Cargo.toml").puts!.run!.raise!
   end
 

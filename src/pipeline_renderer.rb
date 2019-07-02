@@ -135,12 +135,19 @@ class PipelineRenderer
       PipelineStep.new
         .label(":rust: Build & Publish :linux: glibc")
         .command("./server/.buildkite/pipeline.sh rust-binary debian"),
+
       PipelineStep.new
         .label(":rust: Build & Publish :linux: musl")
         .command("./server/.buildkite/pipeline.sh rust-binary alpine"),
+
+      PipelineStep.new
+        .label(":rust: Build & Publish :linux: zeit now")
+        .command("./server/.buildkite/pipeline.sh rust-binary zeit"),
+
       PipelineStep.new
         .label(":rust: Build & Publish :linux: :lambda: lambda")
         .command("./server/.buildkite/pipeline.sh rust-binary lambda"),
+
       PipelineStep.new
         .label(":rust: Build & Publish :darwin:")
         .command("./server/.buildkite/pipeline.sh rust-binary native")
