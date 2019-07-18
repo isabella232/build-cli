@@ -77,22 +77,22 @@ def rust_binary(context, platform)
   artifact_paths = []
 
   if platform == "alpine"
-    artifact_paths.push(artifact_paths_for(context, "linux-musl"))
+    artifact_paths.push(artifact_paths_for(context, "linux-musl-libssl1.1.0"))
     DockerCommands.rust_binary_musl(context)
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/x86_64-unknown-linux-musl/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "debian"
-    artifact_paths.push(artifact_paths_for(context, "linux-glibc"))
+    artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.1.0"))
     DockerCommands.rust_binary(context)
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "zeit"
-    artifact_paths.push(artifact_paths_for(context, "linux-zeit"))
+    artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.0.1"))
     DockerCommands.rust_binary_zeit(context)
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "lambda"
-    artifact_paths.push(artifact_paths_for(context, "linux-lambda"))
+    artifact_paths.push(artifact_paths_for(context, "linux-glibc-libssl1.0.2"))
     DockerCommands.rust_binary_lambda(context)
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
