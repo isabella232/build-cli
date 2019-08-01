@@ -47,6 +47,7 @@ class DockerCommands
   def self.build(context, prisma_version)
     Command.new("docker", "run",
       "-e", "SERVER_ROOT=/root/build",
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=10000",
       "-e", "BRANCH=#{context.branch}",
       "-e", "COMMIT_SHA=#{context.commit}",
       "-e", "CLUSTER_VERSION=#{prisma_version.stringify}",
@@ -75,6 +76,7 @@ class DockerCommands
   def self.native_image(context, prisma_version, build_image)
     Command.new("docker", "run",
       "-e", "SERVER_ROOT=/root/build",
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=10000",
       "-e", "BRANCH=#{context.branch}",
       "-e", "COMMIT_SHA=#{context.commit}",
       "-e", "CLUSTER_VERSION=#{prisma_version}",
@@ -90,6 +92,7 @@ class DockerCommands
   def self.rust_binary_musl(context)
     Command.new("docker", "run",
       '-w', '/root/build',
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=10000",
       '-e', 'CC=gcc',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:alpine',
@@ -98,6 +101,7 @@ class DockerCommands
 
   def self.rust_binary_zeit(context)
     Command.new("docker", "run",
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=10000",
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:centos6-0.5',
@@ -106,6 +110,7 @@ class DockerCommands
 
   def self.rust_binary_lambda(context)
     Command.new("docker", "run",
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=10000",
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
       'prismagraphql/build-image:lambda-1.1',
@@ -114,6 +119,7 @@ class DockerCommands
 
   def self.rust_binary(context)
     Command.new("docker", "run",
+      "-e", "SQLITE_MAX_VARIABLE_NUMBER=10000",
       '-w', '/root/build',
       '-v', "#{context.server_root_path}:/root/build",
       '-v', '/var/run/docker.sock:/var/run/docker.sock',
