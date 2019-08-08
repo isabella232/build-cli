@@ -7,6 +7,7 @@ services:
       COMMIT_SHA: "123abcd"
       RUST_BACKTRACE: "1"
       IS_BUILDKITE: "1"
+      RUST_LOG_FORMAT: "devel"
     volumes:
       - ../../..:/root/build
     working_dir: /root/build/prisma-rs
