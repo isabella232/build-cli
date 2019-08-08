@@ -44,6 +44,19 @@ class DockerCommands
     cleanup = Command.new("docker-compose", *compose_flags, "down", "-v", "--remove-orphans").puts!.run!.raise!
   end
 
+  def self.run_connector_test_kit(context, connector)
+    compose_flags = ["--file", "#{context.server_root_path}/.buildkite/build-cli/docker-test-setups/docker-compose.test.all.yml"]
+    Command.new("docker-compose", *compose_flags, "up", "-d", "test-db-postgres", "test-db-mysql").puts!.run!.raise!
+    
+    sleep(10)
+
+    puts "Starting tests for #{connector}..."
+    test_run = Command.new("docker-compose", *compose_flags, "run", "app", "sbt", "-mem", "3072", "test").puts!.run!.raise!
+
+    puts "Stopping services..."
+    cleanup = Command.new("docker-compose", *compose_flags, "down", "-v", "--remove-orphans").puts!.run!.raise!
+  end
+
   def self.build(context, prisma_version)
     Command.new("docker", "run",
       "-e", "SERVER_ROOT=/root/build",

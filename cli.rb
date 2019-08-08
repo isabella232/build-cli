@@ -47,6 +47,9 @@ Subcommands:
 
 \ttest-rust
 \t\truns the tests for prisma-rs
+
+\tconnector-test <connector>
+\t\tTests the given connector against the connector test kit.
 """
 end
 
@@ -98,10 +101,14 @@ when "rust-binary"
     exit 1
   end
 
-  rust_binary(context, ARGV[1])
+  rust_binary(context, )
 
 when "test-rust"
   test_rust(context)
+
+when "connector-test"
+  connector = ARGV[1]
+  connector_test_kit(context, connector)
 
 else
   puts "Invalid command: #{command}"

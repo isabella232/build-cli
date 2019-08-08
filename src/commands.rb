@@ -21,6 +21,11 @@ def test_rust(context)
   DockerCommands.run_rust_tests(context)
 end
 
+def connector_test_kit(context, connector)
+  DockerCommands.kill_all
+  DockerCommands.run_connector_test_kit(context, connector)
+end
+
 def build_images(context, tag)
   DockerCommands.kill_all
   raise "Invalid version to build images from." if tag.nil?

@@ -24,7 +24,7 @@ services:
       - ../../..:/root/build
       - ~/.ivy2:/root/.ivy2
       - ~/.coursier:/root/.coursier
-    working_dir: /root/build
+    working_dir: /root/build/query-engine/connector-test-kit
     networks:
       - tests
 
