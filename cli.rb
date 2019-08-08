@@ -101,7 +101,7 @@ when "rust-binary"
     exit 1
   end
 
-  rust_binary(context, )
+  rust_binary(context, ARGV[1])
 
 when "test-rust"
   test_rust(context)
