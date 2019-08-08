@@ -128,6 +128,10 @@ class PipelineRenderer
       PipelineStep.new
         .label(":rust: Cargo test prisma-rs")
         .command("./server/.buildkite/pipeline.sh test-rust")
+      
+      PipelineStep.new
+        .label(":sqlite: connector-test-kit sqlite")
+        .command("./server/.buildkite/pipeline.sh connector-test sqlite")
   end
 
   def release_rust_artifacts
