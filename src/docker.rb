@@ -51,7 +51,7 @@ class DockerCommands
     sleep(10)
 
     puts "Starting tests for #{connector}..."
-    test_run = Command.new("docker-compose", *compose_flags, "run", "rust", "./test_connector.sh").puts!.run!.raise!
+    test_run = Command.new("docker-compose", *compose_flags, "run", "rust", "./test_connector.sh", connector).puts!.run!.raise!
 
     puts "Stopping services..."
     cleanup = Command.new("docker-compose", *compose_flags, "down", "-v", "--remove-orphans").puts!.run!.raise!
