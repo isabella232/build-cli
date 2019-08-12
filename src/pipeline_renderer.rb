@@ -131,7 +131,10 @@ class PipelineRenderer
           .command("./server/.buildkite/pipeline.sh test-rust"),
         PipelineStep.new
           .label(":sqlite: connector-test-kit sqlite")
-          .command("./server/.buildkite/pipeline.sh connector-test sqlite")
+          .command("./server/.buildkite/pipeline.sh connector-test sqlite"),
+        PipelineStep.new
+          .label(":postgres: connector-test-kit postgres")
+          .command("./server/.buildkite/pipeline.sh connector-test postgres")
       ]
       
   end
