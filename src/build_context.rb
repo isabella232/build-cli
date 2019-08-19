@@ -96,7 +96,7 @@ class BuildContext
   end
 
   def connectors
-    [:postgres, :mysql, :"mysql-native", :sqlite, :mongo36, :mongo40]
+    [:postgres, :mysql, :sqlite, :mongo36, :mongo40]
   end
 
   def native_image_targets
