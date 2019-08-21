@@ -139,7 +139,7 @@ class PipelineRenderer
           .label(":mysql: connector-test-kit mysql")
           .command("./server/.buildkite/pipeline.sh connector-test mysql")
       ]
-      
+
   end
 
   def release_rust_artifacts
@@ -164,6 +164,11 @@ class PipelineRenderer
         .label(":rust: Build & Publish :darwin:")
         .command("./server/.buildkite/pipeline.sh rust-binary native")
         .queue("macos")
+
+      PipelineStep.new
+        .label(":rust: Build & Publish :windows:")
+        .command("./server/.buildkite/pipeline.sh rust-binary windows")
+        .queue("cross")
     ]
   end
 

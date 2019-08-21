@@ -47,7 +47,7 @@ class DockerCommands
   def self.run_connector_test_kit(context, connector)
     compose_flags = ["--file", "#{context.server_root_path}/.buildkite/build-cli/docker-test-setups/docker-compose.test.all.yml"]
     Command.new("docker-compose", *compose_flags, "up", "-d", "test-db-postgres", "test-db-mysql").puts!.run!.raise!
-    
+
     sleep(10)
 
     puts "Starting tests for #{connector}..."
