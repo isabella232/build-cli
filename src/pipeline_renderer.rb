@@ -163,7 +163,7 @@ class PipelineRenderer
       PipelineStep.new
         .label(":rust: Build & Publish :darwin:")
         .command("./server/.buildkite/pipeline.sh rust-binary native")
-        .queue("macos")
+        .queue("macos"),
 
       PipelineStep.new
         .label(":rust: Build & Publish :windows:")
