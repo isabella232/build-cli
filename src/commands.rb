@@ -116,12 +116,6 @@ def rust_binary(context, platform)
   elsif platform == "windows"
     artifact_paths.push(artifact_paths_for(context, "windows"))
 
-    # No idea how to fix the boxes.
-    env = {
-      "PATH" => "/opt/cargo/bin:#{ENV['PATH']}"
-    }
-
-    Command.new("rustup", "update").with_env(env).puts!.run!.raise!
     Command.new("cargo", "clean", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml").with_env(env).puts!.run!.raise!
     Command.new("cross", "build", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml", "--release", "--target x86_64-pc-windows-gnu").with_env(env).puts!.run!.raise!
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/x86_64-pc-windows-gnu/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
