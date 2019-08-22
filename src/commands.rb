@@ -103,11 +103,14 @@ def rust_binary(context, platform)
 
   elsif platform == "native"
     artifact_paths.push(artifact_paths_for(context, "darwin"))
+    puts "Updating rust..."
     Command.new("rustup", "update").puts!.run!.raise!
+
+    puts "Cleaning up..."
     Command.new("cargo", "clean", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml").puts!.run!.raise!
-    Command.new("cargo", "build", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml", "--release").with_env({
-      "RUSTC_WRAPPER" => "sccache"
-    }).puts!.run!.raise!
+
+    puts "Building..."
+    Command.new("cargo", "build", "--manifest-path=#{context.server_root_path}/prisma-rs/Cargo.toml", "--release").puts!.run!.raise!
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
 
   elsif platform == "windows"
