@@ -36,20 +36,6 @@ Subcommands:
 
 \tbuild <tag>
 \t\tBuilds and tags the docker image(s) on the current branch with the given tag. Additional tags to process are inferred from the given tag.
-
-\tnative-image <target> <version>
-\t\tBuilds the native image on the current branch. Artifacts are always published to S3. <version> is the version string to be baked into the binary.
-\t\t<target>: Denotes the platform, e.g. `debian`, `lambda`.
-
-\trust-binary <platform>
-\t\tCompiles the Prisma Rust binary on the current platform on the current CI branch. Artifacts are always published to S3.
-\t\t<platform>: native (bare on the machine without docker), debian, alpine
-
-\ttest-rust
-\t\truns the tests for prisma-rs
-
-\tconnector-test <connector>
-\t\tTests the given connector against the connector test kit.
 """
 end
 
@@ -86,29 +72,6 @@ when "build"
   end
 
   build_images(context, Tag.new(ARGV[1]))
-
-when "native-image"
-  if ARGV.length < 2
-    print_usage
-    exit 1
-  end
-
-  native_image(context, ARGV[1], ARGV[2])
-
-when "rust-binary"
-  if ARGV.length < 2
-    print_usage
-    exit 1
-  end
-
-  rust_binary(context, ARGV[1])
-
-when "test-rust"
-  test_rust(context)
-
-when "connector-test"
-  connector = ARGV[1]
-  connector_test_kit(context, connector)
 
 else
   puts "Invalid command: #{command}"
