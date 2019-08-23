@@ -168,7 +168,6 @@ class PipelineRenderer
       PipelineStep.new
         .label(":rust: Build & Publish :windows:")
         .command("./server/.buildkite/pipeline.sh rust-binary windows")
-        .queue("cross")
     ]
   end
 
