@@ -116,6 +116,7 @@ def rust_binary(context, platform)
   elsif platform == "windows"
     artifact_paths.push(artifact_paths_for(context, "windows"))
     DockerCommands.rust_binary_windows(context)
+    upload_artifacts = ["prisma.exe", "migration-engine.exe", "prisma-fmt.exe"]
     Dir.chdir("#{context.server_root_path}/prisma-rs/target/x86_64-pc-windows-gnu/release") # Necessary to keep the buildkite agent from prefixing the binary when uploading
   else
     raise "Unsupported platform #{platform}"
